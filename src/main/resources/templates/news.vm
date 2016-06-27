@@ -1,0 +1,51 @@
+<html>
+<body>
+<pre>
+Hello bg_VM!
+
+
+$!{value1}
+
+
+
+#foreach ($color in $colors)
+#set($index=$!{foreach.index} + 1)
+Color $index/$!{foreach.count}: $!{color}
+#end
+
+123
+#foreach ($key in $map.keySet())
+Number $!{foreach.index}/$!{foreach.count} : $!{key} $key -> $map.get($key)
+#end
+
+#foreach ($kv in $map.entrySet())
+Number $!{foreach.index}/$!{foreach.count} : $kv.key -> $kv.value
+#end
+
+$!{user.name}
+$!{user.getName()}
+
+#set($title = "bg_title")
+Include: #include("header.vm")
+
+Parse: #parse("header.vm")
+
+#macro(render_color,$color,$index)
+Color By Macro $index,$color
+#end
+
+#foreach ($color in $colors)
+    #render_color($color,$foreach.index)
+#end
+
+#set($hello = "hello")
+#set($hworld1 = "$hello world")
+#set($hworld2 = '$hello world')
+
+hworld1:$hworld1
+hworld2:$hworld2
+
+$colors.size()
+</pre>
+</body>
+</html>
