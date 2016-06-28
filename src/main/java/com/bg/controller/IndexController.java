@@ -128,4 +128,22 @@ public class IndexController {
     public String error(Exception e){
         return "error: " + e.getMessage();
     }
+
+
+
+    @RequestMapping(path={"/login"})
+    @ResponseBody
+    public String profile(@RequestParam(value="username") String username,
+                          @RequestParam(value="password") String password){
+        if(username.equals("libogu")&&password.equals("8230889")){
+            return "Login!";
+        }
+        else
+            return "Error!";
+    }
+
+    @RequestMapping(path={"/home"})
+    public String home(){
+        return "home";
+    }
 }
