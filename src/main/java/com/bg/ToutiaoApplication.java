@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ToutiaoApplication {
 
 	public static void main(String[] args) {
+		//changed
 		SpringApplication.run(ToutiaoApplication.class, args);
 	}
 }
