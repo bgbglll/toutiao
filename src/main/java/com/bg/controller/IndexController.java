@@ -3,6 +3,8 @@ package com.bg.controller;
 import com.bg.model.User;
 import com.bg.service.ToutiaoService;
 import com.sun.deploy.net.HttpResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -26,12 +28,14 @@ import java.util.*;
 @Controller
 public class IndexController {
 
+    private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
     @Autowired
     private ToutiaoService toutiaoService;
 
     @RequestMapping(path={"/","/index"})
     @ResponseBody
     public String index(HttpSession session){
+        logger.info("Visit Index");
         return "Hello Bg!" + session.getAttribute("msg") + "<br> Say: " + toutiaoService.say();
     }
     @RequestMapping(path={"/profile/{groupId}/{userId}"})
