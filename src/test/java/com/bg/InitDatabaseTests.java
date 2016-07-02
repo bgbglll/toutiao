@@ -12,7 +12,9 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -57,9 +59,11 @@ public class InitDatabaseTests {
             user.setPassword("newpassword");
             userDAO.updatePassword(user);
         }
-
+        List<News> newsList=new ArrayList<>();
+        newsList=newsDAO.selectByUserIdAndOffset(0,0,10);
         Assert.assertEquals("newpassword", userDAO.selectById(1).getPassword());
         userDAO.deleteById(1);
         Assert.assertNull(userDAO.selectById(1));
+        Assert.assertNotEquals(0,newsList.size());
     }
 }
