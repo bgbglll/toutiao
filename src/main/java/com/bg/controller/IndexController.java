@@ -25,7 +25,7 @@ import java.util.*;
  * Created by Administrator on 2016/6/27.
  */
 
-@Controller
+//@Controller
 public class IndexController {
 
     private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
