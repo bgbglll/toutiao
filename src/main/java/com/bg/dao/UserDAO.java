@@ -1,21 +1,19 @@
 package com.bg.dao;
 
 import com.bg.model.User;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 /**
  * Created by Administrator on 2016/7/2.
  */
+@Mapper
 public interface UserDAO {
     String TABLE_NAME = "user";
     String INSERT_FIELDS = " name, password, salt, head_url ";
     String SELECT_FIELDS = " id, name, password, salt, head_url";
 
 
-    @Insert({"insert into ", TABLE_NAME, "(", INSERT_FIELDS, ") values (#{name},#{password},#{salt}),#{head_url}"})
+    @Insert({"insert into ", TABLE_NAME, "(", INSERT_FIELDS, ") values (#{name},#{password},#{salt},#{headUrl})"})
     int addUser(User user);
 
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where id=#{id}"})

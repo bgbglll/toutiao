@@ -2,6 +2,7 @@ package com.bg.dao;
 
 import com.bg.model.News;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/7/2.
  */
+@Mapper
 public interface NewsDAO {
     String TABLE_NAME = "news";
     String INSERT_FIELDS = " title, link, image, like_count, comment_count, created_date, user_id ";
