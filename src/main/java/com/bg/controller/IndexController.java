@@ -142,8 +142,8 @@ public class IndexController {
             return "Error!";
     }
 
-    @RequestMapping(path={"/home"})
+    @RequestMapping(path={"/myhome"})
     public String home(){
-        return "home";
+        return "myhome";
     }
 }
