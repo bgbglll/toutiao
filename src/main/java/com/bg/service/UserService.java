@@ -83,8 +83,10 @@ public class UserService {
             map.put("msgname", "用户名不存在");
             return map;
         }
-
-        if(ToutiaoUtil.MD5(password + user.getSalt()).equals(user.getPassword())){
+        //System.out.println(password);
+        //System.out.println(user.getSalt());
+        //System.out.println(ToutiaoUtil.MD5(password + user.getSalt()));
+        if(!ToutiaoUtil.MD5(password + user.getSalt()).equals(user.getPassword())){
             map.put("msgpwd", "密码不正确");
             return map;
         }

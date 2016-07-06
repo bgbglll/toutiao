@@ -57,7 +57,8 @@ public class LoginController {
     @ResponseBody
     public String login(Model model, @RequestParam("username") String username,
                       @RequestParam("password") String password,
-                      @RequestParam(value="rember", defaultValue = "0") int rememberme) {
+                      @RequestParam(value="rember", defaultValue = "0") int rememberme,
+                        HttpServletResponse response) {
 
         try{
             Map<String, Object> map = userService.login(username,password);
@@ -67,6 +68,7 @@ public class LoginController {
                 if(rememberme > 0){
                     cookie.setMaxAge(3600*24*5);
                 }
+                response.addCookie(cookie);
                 return ToutiaoUtil.getJSONString(0,"登陆成功");
             }
             else{
