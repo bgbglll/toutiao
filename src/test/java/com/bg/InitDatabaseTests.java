@@ -1,7 +1,9 @@
 package com.bg;
 
+import com.bg.dao.LoginTicketDAO;
 import com.bg.dao.NewsDAO;
 import com.bg.dao.UserDAO;
+import com.bg.model.LoginTicket;
 import com.bg.model.News;
 import com.bg.model.User;
 import org.junit.Assert;
@@ -33,6 +35,9 @@ public class InitDatabaseTests {
     @Autowired
     NewsDAO newsDAO;
 
+    @Autowired
+    LoginTicketDAO loginTicketDAO;
+
     @Test
     public void initData(){
         Random random = new Random();
@@ -58,6 +63,16 @@ public class InitDatabaseTests {
 
             user.setPassword("newpassword");
             userDAO.updatePassword(user);
+
+
+            LoginTicket ticket = new LoginTicket();
+            ticket.setStatus(0);
+            ticket.setUserId(i+1);
+            ticket.setExpired(date);
+            ticket.setTicket(String.format("TICKET%d", i+1));
+            loginTicketDAO.addTicket(ticket);
+
+            loginTicketDAO.updateStatus(ticket.getTicket(), 2);
         }
         List<News> newsList=new ArrayList<>();
         newsList=newsDAO.selectByUserIdAndOffset(0,0,10);
@@ -65,5 +80,8 @@ public class InitDatabaseTests {
         userDAO.deleteById(1);
         Assert.assertNull(userDAO.selectById(1));
         Assert.assertNotEquals(0,newsList.size());
+
+        Assert.assertEquals(1,loginTicketDAO.selectByTicket("TICKET1").getUserId());
+        Assert.assertEquals(2,loginTicketDAO.selectByTicket("TICKET2").getUserId());
     }
 }

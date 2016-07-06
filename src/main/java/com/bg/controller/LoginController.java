@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import util.ToutiaoUtil;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
@@ -28,11 +31,45 @@ public class LoginController {
     @ResponseBody
     public String reg(Model model, @RequestParam("username") String username,
                       @RequestParam("password") String password,
-                      @RequestParam(value="rember", defaultValue = "0") int rememberme) {
+                      @RequestParam(value="rember", defaultValue = "0") int rememberme,
+                      HttpServletResponse response) {
 
         try{
             Map<String, Object> map = userService.register(username,password);
-            if(map.isEmpty()){
+            System.out.println(username + " " + password);
+            if(map.containsKey("ticket")){
+                Cookie cookie = new Cookie("ticket", map.get("ticket").toString());
+                cookie.setPath("/");
+                if(rememberme > 0){
+                    cookie.setMaxAge(3600*24*5);
+                }
+                response.addCookie(cookie);
+                return ToutiaoUtil.getJSONString(0,"注册成功");
+            }
+            else{
+                return ToutiaoUtil.getJSONString(1, map);
+            }
+        }catch (Exception e){
+            logger.error("注册异常" + e.getMessage());
+            return ToutiaoUtil.getJSONString(1,"注册异常");
+        }
+
+    }
+
+    @RequestMapping(path = {"/login"}, method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public String login(Model model, @RequestParam("username") String username,
+                      @RequestParam("password") String password,
+                      @RequestParam(value="rember", defaultValue = "0") int rememberme) {
+
+        try{
+            Map<String, Object> map = userService.login(username,password);
+            if(map.containsKey("ticket")){
+                Cookie cookie = new Cookie("ticket", map.get("ticket").toString());
+                cookie.setPath("/");
+                if(rememberme > 0){
+                    cookie.setMaxAge(3600*24*5);
+                }
                 return ToutiaoUtil.getJSONString(0,"注册成功");
             }
             else{

@@ -1,51 +1,55 @@
 <html>
 <body>
 <pre>
-Hello bg_VM!
+Hello VM.
 
+## 你看不到我
 
-$!{value1}
+#*
+这里都看不到
+*#
 
-
-
-#foreach ($color in $colors)
-#set($index=$!{foreach.index} + 1)
-Color $index/$!{foreach.count}: $!{color}
-#end
-
-123
-#foreach ($key in $map.keySet())
-Number $!{foreach.index}/$!{foreach.count} : $!{key} $key -> $map.get($key)
-#end
-
-#foreach ($kv in $map.entrySet())
-Number $!{foreach.index}/$!{foreach.count} : $kv.key -> $kv.value
-#end
-
-$!{user.name}
-$!{user.getName()}
-
-#set($title = "bg_title")
-Include: #include("header.vm")
-
-Parse: #parse("header.vm")
-
-#macro(render_color,$color,$index)
-Color By Macro $index,$color
-#end
+value1:$!{value1}
+$!{value2}
+${value3}
 
 #foreach ($color in $colors)
-    #render_color($color,$foreach.index)
+Color $!{foreach.index}/$!{foreach.count}: $!{color}
+#end
+
+#foreach($key in $map.keySet())
+Number $!{foreach.index}/$!{foreach.count}: $!{key} $map.get($key)
+#end
+
+#foreach($kv in $map.entrySet())
+Number $!{foreach.index}/$!{foreach.count}: $!{kv.key} $!{kv.value}
+#end
+
+
+User:$!{user.name}
+User:$!{user.getName()}
+
+#set($title = "nowcoder")
+Include: #include("header.vm") <br>
+Parse:#parse("header.vm")
+
+#macro (render_color, $color, $index)
+Color By Macro $index, $color
+#end
+
+#foreach ($color in $colors)
+    #render_color($color, $foreach.index)
 #end
 
 #set($hello = "hello")
-#set($hworld1 = "$hello world")
-#set($hworld2 = '$hello world')
+#set($hworld1 = "$!{hello} world")
+#set($hworld2 = '$!{hello} world')
 
 hworld1:$hworld1
 hworld2:$hworld2
 
-$colors.size()
+$!{colors.size()}
+
 </pre>
 </body>
 </html>
