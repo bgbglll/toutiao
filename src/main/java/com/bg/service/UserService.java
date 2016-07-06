@@ -7,10 +7,9 @@ import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import util.ToutiaoUtil;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Administrator on 2016/7/2.
@@ -35,6 +34,21 @@ public class UserService {
             map.put("msgpwd", "密码不能为空");
         }
 
-        User
+        User user = userDAO.selectByName(username);
+
+        if(user != null){
+            map.put("msgname", "用户名已经被注册");
+        }
+
+        //Sign up
+        user = new User();
+        user.setName(username);
+        user.setSalt(UUID.randomUUID().toString().substring(0,5));
+        user.setHeadUrl(String.format("http://images.nowcoder.com/head/%dt.png", new Random().nextInt(1000)));
+        user.setPassword(ToutiaoUtil.MD5(password+user.getSalt()));
+        userDAO.addUser(user);
+
+        //Sign in
+        return map;
     }
 }
