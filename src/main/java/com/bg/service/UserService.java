@@ -28,16 +28,19 @@ public class UserService {
         Map<String, Object> map = new HashMap<>();
         if(StringUtils.isBlank(username)){
             map.put("msgname", "用户名不能为空");
+            return map;
         }
 
         if(StringUtils.isBlank(password)){
             map.put("msgpwd", "密码不能为空");
+            return map;
         }
 
         User user = userDAO.selectByName(username);
 
         if(user != null){
             map.put("msgname", "用户名已经被注册");
+            return map;
         }
 
         //Sign up
@@ -46,7 +49,7 @@ public class UserService {
         user.setSalt(UUID.randomUUID().toString().substring(0,5));
         user.setHeadUrl(String.format("http://images.nowcoder.com/head/%dt.png", new Random().nextInt(1000)));
         user.setPassword(ToutiaoUtil.MD5(password+user.getSalt()));
-        //System.out.println(user.getName() + " " + user.getPassword());
+        System.out.println(user.getName() + " " + user.getPassword());
         userDAO.addUser(user);
 
         //Sign in
