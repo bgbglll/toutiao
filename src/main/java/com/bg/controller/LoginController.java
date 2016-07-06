@@ -6,10 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import util.ToutiaoUtil;
 
 import javax.servlet.http.Cookie;
@@ -36,7 +33,7 @@ public class LoginController {
 
         try{
             Map<String, Object> map = userService.register(username,password);
-            System.out.println(username + " " + password);
+            //System.out.println(username + " " + password);
             if(map.containsKey("ticket")){
                 Cookie cookie = new Cookie("ticket", map.get("ticket").toString());
                 cookie.setPath("/");
@@ -70,15 +67,20 @@ public class LoginController {
                 if(rememberme > 0){
                     cookie.setMaxAge(3600*24*5);
                 }
-                return ToutiaoUtil.getJSONString(0,"注册成功");
+                return ToutiaoUtil.getJSONString(0,"登陆成功");
             }
             else{
                 return ToutiaoUtil.getJSONString(1, map);
             }
         }catch (Exception e){
-            logger.error("注册异常" + e.getMessage());
-            return ToutiaoUtil.getJSONString(1,"注册异常");
+            logger.error("登陆异常" + e.getMessage());
+            return ToutiaoUtil.getJSONString(1,"登陆异常");
         }
+    }
 
+    @RequestMapping(path = {"/logout"}, method = {RequestMethod.GET, RequestMethod.POST})
+    public String logout(@CookieValue("ticket") String ticket){
+        userService.logout(ticket);
+        return "redirect:/";
     }
 }
