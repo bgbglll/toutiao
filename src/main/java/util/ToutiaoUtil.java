@@ -15,6 +15,20 @@ public class ToutiaoUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(ToutiaoUtil.class);
 
+    public static  String TOUTIAO_DOMAIN = "http://127.0.0.1:8080/";
+    public static String[] IMAGE_FILE_EXT = new String[] {"png", "jpg", "bmp", "jpeg"};
+    public static String IMAGE_DIR = "D:/deaProjects/uploadTest/";
+    public static String QINIU_DOMAIN_PREFIX = "http://oa3lacpjg.bkt.clouddn.com/";
+
+    public static boolean isFileAllowed (String fileExt) {
+        for (String ext : IMAGE_FILE_EXT) {
+            if (ext.equals(fileExt)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static String getJSONString(int code, Map<String, Object> map){
         JSONObject json = new JSONObject();
         json.put("code", code);
