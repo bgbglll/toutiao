@@ -1,5 +1,7 @@
 package com.bg.controller;
 
+import com.bg.model.HostHolder;
+import com.bg.model.News;
 import com.bg.service.NewsService;
 import com.bg.service.QiniuService;
 import org.slf4j.Logger;
@@ -18,6 +20,7 @@ import util.ToutiaoUtil;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2016/7/10.
@@ -31,6 +34,9 @@ public class NewsController {
 
     @Autowired
     QiniuService qiniuService;
+
+    @Autowired
+    HostHolder hostHolder;
 
     @RequestMapping(path={"/image"},method = {RequestMethod.GET})
     @ResponseBody
@@ -62,4 +68,30 @@ public class NewsController {
             return ToutiaoUtil.getJSONString(1,"上传失败");
         }
     }
+
+    @RequestMapping(path={"/user/addNews/"},method = {RequestMethod.POST})
+    @ResponseBody
+    public String addNews(@RequestParam("image") String image,
+                          @RequestParam("title") String title,
+                          @RequestParam("link") String link) {
+        try {
+            News news = new News();
+            if(hostHolder.getUser() != null){
+                news.setUserId(hostHolder.getUser().getId());
+            } else {
+                //匿名id
+                news.setUserId(0);
+            }
+            news.setImage(image);
+            news.setLink(link);
+            news.setTitle(title);
+            news.setCreatedDate(new Date());
+            newsService.addNews(news);
+            return ToutiaoUtil.getJSONString(0,"添加资讯成功");
+        } catch (Exception e) {
+            logger.error("添加资讯错误" + e.getMessage());
+            return ToutiaoUtil.getJSONString(1, "发布失败");
+        }
+    }
+
 }

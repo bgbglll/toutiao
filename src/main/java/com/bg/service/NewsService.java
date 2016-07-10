@@ -28,6 +28,11 @@ public class NewsService {
         return newsDAO.selectByUserIdAndOffset(userId, offset, limit);
     }
 
+    public int addNews(News news) {
+        newsDAO.addNews(news);
+        return news.getId();
+    }
+
     public String saveImage(MultipartFile file) throws IOException {
         int dotPos = file.getOriginalFilename().lastIndexOf(".");
         if (dotPos < 0){
