@@ -4,16 +4,15 @@ import com.bg.model.HostHolder;
 import com.bg.model.News;
 import com.bg.service.NewsService;
 import com.bg.service.QiniuService;
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import util.ToutiaoUtil;
 
@@ -37,6 +36,13 @@ public class NewsController {
 
     @Autowired
     HostHolder hostHolder;
+
+    @RequestMapping(path={"/news/{newsId}"},method = {RequestMethod.GET})
+    public String newsDetail(@PathVariable("newsId") int newsId, Model model) {
+        return "detail";
+    }
+
+
 
     @RequestMapping(path={"/image"},method = {RequestMethod.GET})
     @ResponseBody
