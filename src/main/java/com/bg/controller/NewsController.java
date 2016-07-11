@@ -77,6 +77,7 @@ public class NewsController {
             comment.setEntityType(EntityType.ENTITY_NEWS);
             comment.setEntityId(newsId);
             comment.setStatus(0);
+            comment.setCreatedDate(new Date());
             commentService.addComment(comment);
 
             //更新news里的评论数
