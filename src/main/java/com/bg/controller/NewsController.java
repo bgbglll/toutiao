@@ -4,6 +4,7 @@ import com.bg.model.HostHolder;
 import com.bg.model.News;
 import com.bg.service.NewsService;
 import com.bg.service.QiniuService;
+import com.bg.service.UserService;
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,8 +38,19 @@ public class NewsController {
     @Autowired
     HostHolder hostHolder;
 
+    @Autowired
+    UserService userService;
+
     @RequestMapping(path={"/news/{newsId}"},method = {RequestMethod.GET})
     public String newsDetail(@PathVariable("newsId") int newsId, Model model) {
+        News news = newsService.getById(newsId);
+        if(news!=null){
+            //comment
+
+        }
+
+        model.addAttribute("news",news);
+        model.addAttribute("owner", userService.getUser(news.getUserId()));
         return "detail";
     }
 

@@ -83,10 +83,14 @@
                                 </button>
                             </div>
                             <div class="content" data-url="/news/$!{news.id}">
-                                <div >
+                                <div>
                                     <img class="content-img" src="$!{vo.news.image}?imageView2/0/w/100/h/80/" alt="">
                                 </div>
+                                <!--
                                 <div class="content-main">
+                                 -->
+                                <div class="content-main" onClick="window.open('/news/$!{vo.news.id}','_blank')">
+
                                     <h3 class="title">
                                         <a target="_blank" rel="external nofollow" href="/news/$!{vo.news.id}">$!{vo.news.title}</a>
                                     </h3>

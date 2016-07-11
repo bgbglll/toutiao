@@ -33,6 +33,10 @@ public class NewsService {
         return news.getId();
     }
 
+    public News getById(int newsId) {
+        return newsDAO.getById(newsId);
+    }
+
     public String saveImage(MultipartFile file) throws IOException {
         int dotPos = file.getOriginalFilename().lastIndexOf(".");
         if (dotPos < 0){
