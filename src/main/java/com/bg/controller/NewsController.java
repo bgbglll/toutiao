@@ -1,7 +1,7 @@
 package com.bg.controller;
 
-import com.bg.model.HostHolder;
-import com.bg.model.News;
+import com.bg.model.*;
+import com.bg.service.CommentService;
 import com.bg.service.NewsService;
 import com.bg.service.QiniuService;
 import com.bg.service.UserService;
@@ -20,7 +20,9 @@ import util.ToutiaoUtil;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/7/10.
@@ -41,12 +43,23 @@ public class NewsController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    CommentService commentService;
+
     @RequestMapping(path={"/news/{newsId}"},method = {RequestMethod.GET})
     public String newsDetail(@PathVariable("newsId") int newsId, Model model) {
         News news = newsService.getById(newsId);
         if(news!=null){
             //comment
-
+            List<Comment> comments = commentService.getCommentsByEntity(news.getId(), EntityType.ENTITY_NEWS);
+            List<ViewObject> commentVOs = new ArrayList<>();
+            for(Comment comment : comments){
+                ViewObject vo =new ViewObject();
+                vo.set("comment", comment);
+                vo.set("user", userService.getUser(comment.getUserId()));
+                commentVOs.add(vo);
+            }
+            model.addAttribute("comments", commentVOs);
         }
 
         model.addAttribute("news",news);

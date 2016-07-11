@@ -78,22 +78,17 @@
             </div>
 
             <div id="comments" class="comments">
+                #foreach($commentvo in $comments)
                 <div class="media">
-                    <a class="media-left" href="http://nowcoder.com/u/210176">
-                        <img src="http://images.nowcoder.com/images/20141231/622873_1420036789276_622873_1420036771761_%E8%98%91%E8%8F%87.jpg@0e_200w_200h_0c_1i_1o_90Q_1x">
+                    <a class="media-left" href="/user/$!{commentvo.user.id}">
+                        <img src="$!{commentvo.user.headUrl}">
                     </a>
                     <div class="media-body">
-                        <h4 class="media-heading"> <small class="date">2016-06-20 08:00</small></h4>
-                        <div>图片无法保存，书名就是标题里那个吗</div>
+                        <h4 class="media-heading"> <small class="date">$date.format('yyyy-MM-dd HH:mm:ss',$!{commentvo.comment.createdDate})</small></h4>
+                        <div>$!{commentvo.comment.content}</div>
                     </div>
                 </div>
-                <div class="media">
-                    <a class="media-left" href="http://nowcoder.com/u/220145"><img src="http://images.nowcoder.com/images/20141231/622873_1420036789276_622873_1420036771761_%E8%98%91%E8%8F%87.jpg@0e_200w_200h_0c_1i_1o_90Q_1x" alt="Thumb"></a>
-                    <div class="media-body">
-                        <h4 class="media-heading">夏天 <small class="date">2016-06-19 12:20</small></h4>
-                        <div>手动点赞</div>
-                    </div>
-                </div>
+                #end
             </div>
 
         </div>
