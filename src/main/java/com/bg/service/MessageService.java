@@ -29,7 +29,7 @@ public class MessageService {
         return messageDAO.getConversationList(userId, offset, limit);
     }
 
-    public int getUnreadCount(int userId, String conversationId) {
+    public int getConversationUnReadCount(int userId, String conversationId) {
         return messageDAO.getConversationUnReadCount(userId, conversationId);
     }
 }
