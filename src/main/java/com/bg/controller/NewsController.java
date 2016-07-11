@@ -15,9 +15,11 @@ import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.HtmlUtils;
 import util.ToutiaoUtil;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.html.HTML;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -71,6 +73,8 @@ public class NewsController {
     public String addComment(@RequestParam("newsId") int newsId,
                              @RequestParam("content") String content) {
         try {
+            //html 过滤
+            content = HtmlUtils.htmlEscape(content);
             Comment comment = new Comment();
             comment.setUserId(hostHolder.getUser().getId());
             comment.setContent(content);
