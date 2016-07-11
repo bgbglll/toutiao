@@ -53,4 +53,8 @@ public class NewsService {
         return ToutiaoUtil.TOUTIAO_DOMAIN + "image?name=" + fileName;
     }
 
+    public int updateCommentCount(int id, int count) {
+        return newsDAO.updateCommentCount(id, count);
+    }
+
 }
