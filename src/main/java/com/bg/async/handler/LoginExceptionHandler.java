@@ -5,12 +5,11 @@ import com.bg.async.EventModel;
 import com.bg.async.EventType;
 import com.bg.model.Message;
 import com.bg.service.MessageService;
+import com.bg.util.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Administrator on 2016/7/18.
@@ -20,6 +19,9 @@ public class LoginExceptionHandler implements EventHandler{
 
     @Autowired
     MessageService messageService;
+
+    @Autowired
+    MailSender mailSender;
 
     @Override
     public void doHandle(EventModel model) {
@@ -31,6 +33,12 @@ public class LoginExceptionHandler implements EventHandler{
         message.setFromId(3);
         message.setCreatedDate(new Date());
         messageService.addMessage(message);
+
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("username",model.getExt("username"));
+        mailSender.sendWithHTMLTemplate(model.getExt("email"),"登录异常", "mails/welcome.html", map);
+
     }
 
     @Override

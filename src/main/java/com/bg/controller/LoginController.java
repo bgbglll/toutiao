@@ -77,7 +77,7 @@ public class LoginController {
                 }
                 response.addCookie(cookie);
                 eventProducer.fireEvent(new EventModel(EventType.LOGIN).setActorId((int) map.get("userId"))
-                        .setExt("username", username).setExt("email","602566046@qq.com"));
+                        .setExt("username", username).setExt("email","libogu92@gmail.com"));
                 return ToutiaoUtil.getJSONString(0,"登陆成功");
             }
             else{
