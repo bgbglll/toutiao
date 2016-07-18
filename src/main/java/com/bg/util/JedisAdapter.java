@@ -1,5 +1,6 @@
 package com.bg.util;
 
+import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -253,6 +254,18 @@ public class JedisAdapter implements InitializingBean  {
                 jedis.close();
             }
         }
+    }
+
+    public void setObeject(String key, Object obj) {
+        set(key, JSON.toJSONString(obj));
+    }
+
+    public <T> T getObject(String key, Class<T> clazz) {
+        String value = get(key);
+        if (value != null) {
+            return JSON.parseObject(value,clazz);
+        }
+        return null;
     }
 }
 
