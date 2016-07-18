@@ -1,5 +1,9 @@
 package com.bg.controller;
 
+import com.bg.async.EventHandler;
+import com.bg.async.EventModel;
+import com.bg.async.EventProducer;
+import com.bg.async.EventType;
 import com.bg.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +24,12 @@ import java.util.Map;
 public class LoginController {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EventProducer eventProducer;
 
     @RequestMapping(path = {"/reg"}, method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
@@ -68,6 +76,8 @@ public class LoginController {
                     cookie.setMaxAge(3600*24*5);
                 }
                 response.addCookie(cookie);
+                eventProducer.fireEvent(new EventModel(EventType.LOGIN).setActorId((int) map.get("userId"))
+                        .setExt("username", username).setExt("email","602566046@qq.com"));
                 return ToutiaoUtil.getJSONString(0,"登陆成功");
             }
             else{

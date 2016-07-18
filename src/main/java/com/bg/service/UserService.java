@@ -92,7 +92,7 @@ public class UserService {
 
 
         //Sign in
-
+        map.put("userId", user.getId());
         //ticket
         String ticket = addLoginTicket(user.getId());
         map.put("ticket",ticket);
