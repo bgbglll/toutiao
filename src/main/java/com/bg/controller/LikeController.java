@@ -1,5 +1,8 @@
 package com.bg.controller;
 
+import com.bg.async.EventModel;
+import com.bg.async.EventProducer;
+import com.bg.async.EventType;
 import com.bg.model.EntityType;
 import com.bg.model.HostHolder;
 import com.bg.model.News;
@@ -27,6 +30,8 @@ public class LikeController {
     @Autowired
     NewsService newsService;
 
+    @Autowired
+    EventProducer eventProducer;
     @RequestMapping(path = {"/like"}, method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public  String like(@Param("newId") int newsId) {
@@ -34,10 +39,14 @@ public class LikeController {
         // 更新喜欢数
         News news = newsService.getById(newsId);
         newsService.updateLikeCount(newsId, (int) likeCount);
+
         //异步处理
-//        eventProducer.fireEvent(new EventModel(EventType.LIKE)
-//                .setEntityOwnerId(news.getUserId())
-//                .setActorId(hostHolder.getUser().getId()).setEntityId(newsId));
+        eventProducer.fireEvent(new EventModel(EventType.LIKE)
+                .setEntityOwnerId(news.getUserId())
+                .setActorId(hostHolder.getUser().getId())
+                .setEntityId(newsId)
+                .setEntityType(EntityType.ENTITY_NEWS));
+
         return ToutiaoUtil.getJSONString(0, String.valueOf(likeCount));
 
     }
