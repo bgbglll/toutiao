@@ -5,11 +5,10 @@ import com.bg.dao.LoginTicketDAO;
 import com.bg.dao.UserDAO;
 import com.bg.model.LoginTicket;
 import com.bg.model.User;
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import util.ToutiaoUtil;
+import com.bg.util.ToutiaoUtil;
 
 import java.util.*;
 

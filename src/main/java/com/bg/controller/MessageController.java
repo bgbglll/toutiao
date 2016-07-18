@@ -1,6 +1,5 @@
 package com.bg.controller;
 
-import com.bg.dao.MessageDAO;
 import com.bg.model.*;
 import com.bg.service.*;
 import org.slf4j.Logger;
@@ -12,8 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.util.HtmlUtils;
-import util.ToutiaoUtil;
+import com.bg.util.ToutiaoUtil;
 
 import java.util.ArrayList;
 import java.util.Date;

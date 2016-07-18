@@ -5,7 +5,7 @@ import com.bg.model.News;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import util.ToutiaoUtil;
+import com.bg.util.ToutiaoUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,4 +57,7 @@ public class NewsService {
         return newsDAO.updateCommentCount(id, count);
     }
 
+    public int updateLikeCount(int id, int count) {
+        return newsDAO.updateLikeCount(id, count);
+    }
 }

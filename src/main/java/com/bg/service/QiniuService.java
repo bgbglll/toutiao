@@ -2,7 +2,6 @@ package com.bg.service;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.bg.controller.LoginController;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
 import com.qiniu.storage.UploadManager;
@@ -11,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import util.ToutiaoUtil;
+import com.bg.util.ToutiaoUtil;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -22,7 +21,7 @@ import java.util.UUID;
 @Service
 public class QiniuService {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+    private static final Logger logger = LoggerFactory.getLogger(QiniuService.class);
 
     //设置好账号的ACCESS_KEY和SECRET_KEY
     String ACCESS_KEY = "oUo652ZuC_9GexHBTNaDvgjJCQbuTfc11HuBXyXi";

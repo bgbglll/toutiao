@@ -1,7 +1,6 @@
-package util;
+package com.bg.util;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bg.aspect.LogAspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
