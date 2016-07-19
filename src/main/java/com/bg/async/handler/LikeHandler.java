@@ -7,6 +7,7 @@ import com.bg.model.Message;
 import com.bg.model.User;
 import com.bg.service.MessageService;
 import com.bg.service.UserService;
+import com.bg.util.StringToUrlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,7 +39,10 @@ public class LikeHandler implements EventHandler {
         String newsUrl = "http://127.0.0.1:8080/news/" + model.getEntityId();
         ///user/{userId}/
         String userUrl = "http://127.0.0.1:8080/user/" + user.getId() + "/";
-        message.setContent("<a href='" + userUrl + "'>" + "用户" + user.getName() + "</a>" + "攒了您的咨询," + "<a href='" + newsUrl + "'>" + newsUrl + "</a>");
+        String userContent = "用户" + user.getName();
+        String content = StringToUrlUtil.buildUrl(userUrl,userContent) + "攒了您的资讯," + StringToUrlUtil.buildUrl(newsUrl,newsUrl);
+        message.setContent(content);
+        //message.setContent("<a href='" + userUrl + "'>" + "用户" + user.getName() + "</a>" + "攒了您的咨询," + "<a href='" + newsUrl + "'>" + newsUrl + "</a>");
         message.setCreatedDate(new Date());
 
 //      message.setConversationId(fromId < toId ? String.format("%d_%d", fromId, toId) : String.format("%d_%d", toId, fromId));
