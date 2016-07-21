@@ -35,6 +35,7 @@ public class JedisTests {
 
     @Test
     public void testObject(){
+        //redis test
         User user = new User();
         user.setHeadUrl("http://image.nowcoder.com/head/100t.png");
         user.setName("username");
