@@ -22,6 +22,7 @@ public class LikeService {
         return  jedisAdapter.sismember(disLikeKey, String.valueOf(userId)) ? -1 : 0;
     }
 
+    //赞踩信息都存储在redis中并与mysql中数据保持同步
     public long like(int userId, int entityType, int entityId) {
         // 在喜欢集合里增加
         String likeKey = RedisKeyUtil.getLikeKey(entityId, entityType);

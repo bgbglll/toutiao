@@ -46,5 +46,6 @@ public class JedisTests {
 
         User u = jedisAdapter.getObject("user1xx", User.class);
         System.out.println(ToStringBuilder.reflectionToString(u));
+
     }
 }
