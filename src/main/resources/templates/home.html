@@ -91,12 +91,12 @@
                             </div>
                             <div class="content" data-url="/news/$!{news.id}">
                                 <div>
-                                    <img class="content-img" onClick="window.open('/news/$!{vo.news.id}','_blank')" src="$!{vo.news.image}?imageView2/0/w/100/h/80/" alt="">
+                                    <img class="content-img" onClick="location='/news/$!{vo.news.id}'" src="$!{vo.news.image}?imageView2/0/w/100/h/80/" alt="">
                                 </div>
                                 <!--
                                 <div class="content-main">
                                  -->
-                                <div class="content-main" onClick="window.open('/news/$!{vo.news.id}','_blank')">
+                                <div class="content-main" onClick="location='/news/$!{vo.news.id}'">
 
                                     <h3 class="title">
                                         <a target="_blank" rel="external nofollow" href="/news/$!{vo.news.id}">$!{vo.news.title}</a>

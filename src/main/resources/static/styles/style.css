@@ -3,6 +3,11 @@
 */
 
 
+
+/*发私信按钮*/
+.my-right {
+  left: 700px;
+}
 html {
   background-color: #f0f3f4;
 }

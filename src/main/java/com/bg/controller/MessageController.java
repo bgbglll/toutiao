@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.bg.util.ToutiaoUtil;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,11 +39,11 @@ public class MessageController {
     @ResponseBody
     public String addMessage(@RequestParam("fromId") int fromId,
                              @RequestParam("toId") int toId,
-                             @RequestParam("content") String content) {
+                             @RequestParam("content") String msgContent) {
         try {
             //html 过滤
             Message msg = new Message();
-            msg.setContent(content);
+            msg.setContent(msgContent);
             msg.setCreatedDate(new Date());
             msg.setToId(toId);
             msg.setFromId(fromId);
@@ -96,10 +97,34 @@ public class MessageController {
                 conversations.add(vo);
             }
             model.addAttribute("conversations", conversations);
+            model.addAttribute("localUserId", localUserId);
             return "letter";
         } catch (Exception e) {
             logger.error("获取站内信列表失败" + e.getMessage());
         }
         return "letter";
+    }
+
+    @RequestMapping(path = {"/msg/sendMessage"}, method = {RequestMethod.POST})
+    public String sendMessage(@RequestParam("sender") int senderId,
+                              @RequestParam("receiver") String receiverName,
+                             @RequestParam("msgContent") String content) {
+        try {
+            //html 过滤
+            User receiver = userService.getUser(receiverName);
+            content = HtmlUtils.htmlEscape(content);
+            Message msg = new Message();
+            msg.setContent(content);
+            msg.setCreatedDate(new Date());
+            msg.setToId(receiver.getId());
+            msg.setFromId(senderId);
+            //msg.setConversationId(fromId < toId ? String.format("%d_%d", fromId, toId) : String.format("%d_%d", toId, fromId));
+            messageService.addMessage(msg);
+
+            //异步
+        } catch (Exception e){
+            logger.error("发送信息失败" + e.getMessage());
+        }
+        return "redirect:/msg/list";
     }
 }

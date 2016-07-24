@@ -28,6 +28,10 @@ public class UserService {
         return userDAO.selectById(id);
     }
 
+    public User getUser(String username) {
+        return userDAO.selectByName(username);
+    }
+
     public Map<String, Object> register(String username, String password){
         Map<String, Object> map = new HashMap<>();
         if(StringUtils.isBlank(username)){
