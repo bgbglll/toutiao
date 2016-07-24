@@ -29,4 +29,7 @@ public interface NewsDAO {
     int updateLikeCount(@Param("id") int id, @Param("likeCount") int likeCount);
 
     List<News> selectByUserIdAndOffset(@Param("userId") int userId, @Param("offset") int offset, @Param("limit") int limit);
+
+    @Select({"select count(*) from ", TABLE_NAME})
+    int newsCount();
 }
