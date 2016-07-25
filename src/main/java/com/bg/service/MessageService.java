@@ -34,6 +34,10 @@ public class MessageService {
     }
 
     public void deleteMessage(int id) {
-        messageDAO.updateRead(id,1);
+        messageDAO.updateDeleted(id,1);
+    }
+
+    public void readMessage(int id) {
+        messageDAO.updateRead(id, 1);
     }
 }

@@ -3,7 +3,7 @@ $(function(){
         $("[id*='del-link']").click(function(){
             var that = this;
             var id = $(that).attr("value");;
-            alert("值为：" + id);
+            //alert("值为：" + id);
               //Ajax调用处理
             $.ajax({
                type: "POST",

@@ -24,7 +24,7 @@ import java.util.List;
 @Controller
 public class MessageController {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+    private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
 
     @Autowired
     MessageService messageService;
@@ -65,6 +65,8 @@ public class MessageController {
             List<ViewObject> messages = new ArrayList<>();
             for (Message msg : conversationList){
                 ViewObject vo = new ViewObject();
+                //System.out.println(msg.getId());
+                messageService.readMessage(msg.getId());
                 vo.set("message",msg);
                 User user = userService.getUser(msg.getFromId());
                 if(user == null){

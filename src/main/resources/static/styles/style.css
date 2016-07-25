@@ -12,7 +12,9 @@
 .my-right-news {
   left: 570px;
 }
-
+.my-right-letter-detail {
+  left: 480px;
+}
 html {
   background-color: #f0f3f4;
 }
