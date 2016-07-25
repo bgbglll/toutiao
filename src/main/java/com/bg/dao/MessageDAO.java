@@ -5,6 +5,7 @@ import com.bg.model.Message;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2016/7/11.
@@ -22,7 +23,7 @@ public interface MessageDAO {
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where conversation_id=#{conversationId} and deleted = 0 order by id desc limit #{offset},#{limit}"})
     List<Message> getConversationDetail(@Param("conversationId") String conversationId, @Param("offset") int offset, @Param("limit") int limit);
 
-    @Select({"select ", INSERT_FIELDS, " ,count(id) as id from (  select * from ", TABLE_NAME, " where from_id=#{userId} or to_id=#{userId} and deleted = 0 order by id desc) tt group by conversation_id order by id desc limit #{offset},#{limit}"})
+    @Select({"select ", INSERT_FIELDS, " ,count(id) as id from (  select * from ", TABLE_NAME, " where from_id=#{userId} or to_id=#{userId} order by id desc) tt where deleted = 0 group by  conversation_id order by id desc limit #{offset},#{limit}"})
     List<Message> getConversationList(@Param("userId") int userId, @Param("offset") int offset, @Param("limit") int limit);
 
     @Select({"select count(id) from ", TABLE_NAME, " where has_read = 0 and to_id=#{userId} and conversation_id=#{conversationId} and deleted = 0"})
@@ -33,4 +34,13 @@ public interface MessageDAO {
 
     @Update({"update ", TABLE_NAME, "set has_read=#{hasRead} where id=#{id}"})
     void updateRead(@Param("id") int id, @Param("hasRead") int hasRead);
+
+    @Select({"select count(*) ", " from ",TABLE_NAME, " where conversation_id=#{conversationId} and deleted = 0"})
+    int detailMessageCount(@Param("conversationId") String conversationId);
+
+    @Update({"update ", TABLE_NAME, "set deleted=#{deleted} where conversation_id=#{conversationId} and deleted = 0"})
+    void updateDeletedByConversationId(@Param("conversationId") String conversationId, @Param("deleted") int deleted);
+
+    @Select({"select count(*) from (select count(*) from (  select * from ", TABLE_NAME, " where from_id=#{userId} or to_id=#{userId} order by id desc) tt where deleted = 0 group by  conversation_id) ttt"})
+    int listCount(@Param("userId") int userId);
 }

@@ -18,7 +18,7 @@ $(function(){
          });
 
     });
-var pages;
+var newsPages;
 $(function(){
 
 $.ajax({
@@ -29,7 +29,7 @@ $.ajax({
       cache:false,
       success: function(data){
       //alert(data);
-      pages = data;
+      newsPages = data;
       }
 });
 });
@@ -46,9 +46,9 @@ $.ajax({
                  bootstrapMajorVersion:3,
                  currentPage: curPage,
                  numberOfPages: 5,
-                 totalPages:pages,
+                 totalPages: newsPages,
                  pageUrl: function(type, page, current){
-                        return "/page?curPage="+page;
+                        return "/?curPage="+page;
 
                   }
              }

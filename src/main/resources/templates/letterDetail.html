@@ -1,8 +1,46 @@
 #parse("header.html")
 <div id="main">
     <div class="container">
+        <div class="row clearfix">
+
+            <div class="col-md-12 column my-right-letter">
+
+                <button class="btn btn-success btn-xs" type="button">
+                    <a id="modal-876333" href="#modal-container-876333" role="button" class="btn" data-toggle="modal">回复</a>
+                </button>
+
+                <div class="modal fade" id="modal-container-876333" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                    <form method="post" id="message-form"  action="/msg/sendMessage">
+                        <input name="sender" id="sender" type="hidden" value="$!{localUserId}">
+                        <input name="receiver" id="receiver" type="hidden" value="$!{receiverName}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1">发给</span>
+                                        <input type="text" class="form-control" placeholder="$!{receiverName}"  aria-describedby="basic-addon1" disabled>
+
+                                    </div>
+                                </div>
+                                <div class="modal-body">
+                                    内容...
+                                    <textarea rows="5" class="text required comment-content form-control" name="msgContent" id="msgContent"></textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" data-dismiss="modal">关闭</button>
+                                    <input type="submit" name="commit" value="发送" class="btn btn-success">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <ul class="letter-chatlist">
             #foreach($msg in $messages)
+            <p hidden id="conversationId" value="$!{msg.message.conversationId}"></p>
             #if ($localUserId == $!{msg.userId})
             <li id="msg-item-$!{msg.message.id}">
                 <div class="tooltip fade left in">
@@ -45,7 +83,7 @@
             #end
             #end
             <div class="col-md-12 column my-right-letter-detail">
-                <ul  id="news-page">
+                <ul  id="letter-detail-page">
                 </ul>
             </div>
 
@@ -97,5 +135,4 @@
 </div>
 <script type="text/javascript" src="/scripts/main/site/home.js"></script>
 <script type="text/javascript" src="/scripts/main/site/letterDetail.js"></script>
-<script type="text/javascript" src="/scripts/main/site/page.js"></script>
 #parse("footer.html")

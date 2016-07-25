@@ -41,9 +41,35 @@ public class InitDatabaseTests {
     CommentDAO commentDAO;
 
     @Test
-    public void initData(){
+    public void initData() {
         Random random = new Random();
-        for(int i=0; i<11; i++){
+        User admin = new User();
+        admin.setHeadUrl(String.format("http://images.nowcoder.com/head/%dt.png", random.nextInt(1000)));
+        admin.setName("系统");
+        admin.setPassword("");
+        admin.setSalt("");
+        userDAO.addUser(admin);
+
+        String []url = {"http://oa3lacpjg.bkt.clouddn.com/18683af4a0314473ba2e30a04032c64b.jpg"
+                ,"http://oa3lacpjg.bkt.clouddn.com/4d72c8e8f9da4724913e254609a5c22b.jpg"
+                ,"http://oa3lacpjg.bkt.clouddn.com/4eceb1b49c444b559611d8f015af8cb7.jpg"
+                ,"http://oa3lacpjg.bkt.clouddn.com/56ac4e7958d54d118d9f6b0a33fa4dc2.jpg"};
+
+        for (int i = 0; i < 4; i++) {
+            News news = new News();
+            news.setCommentCount(0);
+            Date date = new Date();
+            date.setTime(date.getTime() + 1000 * 3600 * 5 * 0);
+            news.setCreatedDate(date);
+            news.setImage(url[i]);
+            news.setLikeCount(i + 1);
+            news.setUserId(i + 1);
+            news.setTitle(String.format("TITLE{%d}", i));
+            news.setLink(url[i]);
+            newsDAO.addNews(news);
+        }
+
+        for (int i = 5; i < 16; i++) {
             User user = new User();
             user.setHeadUrl(String.format("http://images.nowcoder.com/head/%dt.png", random.nextInt(1000)));
             user.setName(String.format("USER%d", i));
@@ -54,20 +80,20 @@ public class InitDatabaseTests {
             News news = new News();
             news.setCommentCount(i);
             Date date = new Date();
-            date.setTime(date.getTime() + 1000*3600*5*i);
+            date.setTime(date.getTime() - 1000 * 3600 * 5 * i);
             news.setCreatedDate(date);
             news.setImage(String.format("http://images.nowcoder.com/head/%dm.png", random.nextInt(1000)));
-            news.setLikeCount(i+1);
-            news.setUserId(i+1);
+            news.setLikeCount(i + 1);
+            news.setUserId(i + 1);
             news.setTitle(String.format("TITLE{%d}", i));
             news.setLink(String.format("http://www.nowcoder.com/%d.html", i));
             newsDAO.addNews(news);
 
 
             // 给每个资讯插入3个评论
-            for(int j = 0; j < 3; ++j) {
+            for (int j = 0; j < 3; ++j) {
                 Comment comment = new Comment();
-                comment.setUserId(i+1);
+                comment.setUserId(i + 1);
                 comment.setCreatedDate(new Date());
                 comment.setStatus(0);
                 comment.setContent("这里是一个评论啊！" + String.valueOf(j));
@@ -76,29 +102,11 @@ public class InitDatabaseTests {
                 commentDAO.addComment(comment);
             }
 
-            user.setPassword("newpassword");
-            userDAO.updatePassword(user);
 
 
-            LoginTicket ticket = new LoginTicket();
-            ticket.setStatus(0);
-            ticket.setUserId(i+1);
-            ticket.setExpired(date);
-            ticket.setTicket(String.format("TICKET%d", i+1));
-            loginTicketDAO.addTicket(ticket);
 
-            loginTicketDAO.updateStatus(ticket.getTicket(), 2);
+
         }
-        List<News> newsList=new ArrayList<>();
-        newsList=newsDAO.selectByUserIdAndOffset(0,0,10);
-        Assert.assertEquals("newpassword", userDAO.selectById(1).getPassword());
-        userDAO.deleteById(1);
-        Assert.assertNull(userDAO.selectById(1));
-        Assert.assertNotEquals(0,newsList.size());
 
-        Assert.assertEquals(1,loginTicketDAO.selectByTicket("TICKET1").getUserId());
-        Assert.assertEquals(2,loginTicketDAO.selectByTicket("TICKET2").getUserId());
-
-        Assert.assertNotNull(commentDAO.selectByEntity(1, EntityType.ENTITY_NEWS).get(0));
     }
 }

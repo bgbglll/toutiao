@@ -30,8 +30,8 @@ public class LikeHandler implements EventHandler {
     public void doHandle(EventModel model) {
         //System.out.println("Liked");
         Message message = new Message();
-        //“3”：系统账号id
-        int fromId = 3;
+        //“1”：系统账号id
+        int fromId = 1;
         int toId = model.getEntityOwnerId();
         message.setFromId(fromId);
         User user = userService.getUser(model.getActorId());
@@ -40,7 +40,7 @@ public class LikeHandler implements EventHandler {
         ///user/{userId}/
         String userUrl = "http://127.0.0.1:8080/user/" + user.getId() + "/";
         String userContent = "用户" + user.getName();
-        String content = StringToUrlUtil.buildUrl(userUrl,userContent) + "攒了您的资讯," + StringToUrlUtil.buildUrl(newsUrl,newsUrl);
+        String content = StringToUrlUtil.buildUrl(userUrl,userContent) + "赞了您的资讯," + StringToUrlUtil.buildUrl(newsUrl,newsUrl);
         message.setContent(content);
         //message.setContent("<a href='" + userUrl + "'>" + "用户" + user.getName() + "</a>" + "攒了您的咨询," + "<a href='" + newsUrl + "'>" + newsUrl + "</a>");
         message.setCreatedDate(new Date());

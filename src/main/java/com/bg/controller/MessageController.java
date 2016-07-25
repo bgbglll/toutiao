@@ -58,9 +58,10 @@ public class MessageController {
 
     @RequestMapping(path = {"/msg/detail"}, method = {RequestMethod.GET})
     public String conversationDetail(Model model,
-                                     @RequestParam("conversationId") String conversationId) {
+                                     @RequestParam("conversationId") String conversationId, @RequestParam(value="curPage",defaultValue="1") int curPage) {
         try {
-            List<Message> conversationList = messageService.getConversationDetail(conversationId,0,10);
+            int cur = (curPage - 1) * 5;
+            List<Message> conversationList = messageService.getConversationDetail(conversationId,cur,5);
             //System.out.println(conversationList.get(0).getContent());
             List<ViewObject> messages = new ArrayList<>();
             for (Message msg : conversationList){
@@ -76,9 +77,22 @@ public class MessageController {
                 vo.set("userId",user.getId());
                 messages.add(vo);
             }
+            String receiverId;
+            String []id = conversationId.split("_");
             int localUserId = hostHolder.getUser().getId();
+            //System.out.println(id[0]+" " +id[1]);
+            if(!id[0].equals(localUserId)) {
+                receiverId = id[0];
+            }
+            else {
+                receiverId =id[1];
+            }
+            //System.out.println(receiverId);
             model.addAttribute("localUserId", localUserId);
             model.addAttribute("messages",messages);
+
+            //System.out.println(userService.getUser(String.valueOf(receiverId)));
+            model.addAttribute("receiverName", userService.getUser(Integer.parseInt(receiverId)).getName());
         } catch (Exception e) {
             logger.error("获取详细消息失败" + e.getMessage());
         }
@@ -86,11 +100,12 @@ public class MessageController {
     }
 
     @RequestMapping(path = {"/msg/list"}, method = {RequestMethod.GET})
-    public String conversationList(Model model) {
+    public String conversationList(Model model, @RequestParam(value="curPage",defaultValue="1") int curPage) {
         try {
+            int cur = (curPage - 1) * 5;
             int localUserId = hostHolder.getUser().getId();
             List<ViewObject> conversations = new ArrayList<>();
-            List<Message> conversationList = messageService.getConversationList(localUserId, 0, 10);
+            List<Message> conversationList = messageService.getConversationList(localUserId, cur, 5);
             for (Message msg : conversationList) {
                 ViewObject vo = new ViewObject();
                 vo.set("conversation", msg);
@@ -124,13 +139,14 @@ public class MessageController {
             msg.setFromId(senderId);
             msg.setHasRead(1);
             //msg.setConversationId(fromId < toId ? String.format("%d_%d", fromId, toId) : String.format("%d_%d", toId, fromId));
-            messageService.addMessage(msg);
 
+            messageService.addMessage(msg);
+            return "redirect:/msg/detail?conversationId=" + msg.getConversationId();
             //异步
-        } catch (Exception e){
+        } catch (Exception e) {
             logger.error("发送信息失败" + e.getMessage());
+            return "错误";
         }
-        return "redirect:/msg/list";
     }
 
     @RequestMapping(path = {"/msg/delete"}, method = {RequestMethod.POST})
@@ -142,8 +158,42 @@ public class MessageController {
             messageService.deleteMessage(msgId);
             return 1;
         } catch (Exception e){
-            logger.error("增加消息失败" + e.getMessage());
+            logger.error("删除消息失败" + e.getMessage());
             return 0;
         }
     }
+
+    @RequestMapping(path = {"/msg/detail/totalPages"}, method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public int totalPages(Model model, @RequestParam("conversationId") String conversationId) {
+        //System.out.println(conversationId);
+        int count = messageService.detailCount(conversationId);
+        int pages = count % 5 == 0 ? count/5 : count/5 + 1;
+        return pages;
+    }
+
+    @RequestMapping(path = {"/msg/deleteList"}, method = {RequestMethod.POST})
+    @ResponseBody
+    public int delteList(@RequestParam("conversationId") String conversationId) {
+        try {
+            //html 过滤
+            //System.out.print(conversationId);
+            messageService.deleteMessageList(conversationId);
+            return 1;
+        } catch (Exception e){
+            logger.error("删除消息失败" + e.getMessage());
+            return 0;
+        }
+    }
+
+    @RequestMapping(path = {"/msg/list/totalPages"}, method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public int listTotalPages(Model model) {
+        int localUserId = hostHolder.getUser().getId();
+        int count = messageService.listCount(localUserId);
+        //System.out.println(count);
+        int pages = count % 5 == 0 ? count/5 : count/5 + 1;
+        return pages;
+    }
 }
+

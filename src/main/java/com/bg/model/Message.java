@@ -13,6 +13,15 @@ public class Message {
     private Date createdDate;
     private int hasRead;
     private String conversationId;
+    private int deleted;
+
+    public int getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(int deleted) {
+        this.deleted = deleted;
+    }
 
     public int getId() {
         return id;

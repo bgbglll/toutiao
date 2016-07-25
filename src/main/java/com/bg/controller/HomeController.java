@@ -52,24 +52,17 @@ public class HomeController {
     }
 
     @RequestMapping(path = {"/", "/index"}, method = {RequestMethod.GET, RequestMethod.POST})
-    public String index(Model model) {
-        //if (curPage==)
-        model.addAttribute("vos", getNews(0, 0, 5));
+    public String index(Model model, @RequestParam(value="curPage",defaultValue="1") int curPage) {
+        int cur = (curPage - 1) * 5;
+        model.addAttribute("vos", getNews(0, cur, 5));
         return "home";
     }
-
 
     @RequestMapping(path = {"/test"}, method = {RequestMethod.GET, RequestMethod.POST})
     public String test(Model model) {
         return "test";
     }
 
-    @RequestMapping(path = {"/page"}, method = {RequestMethod.GET, RequestMethod.POST})
-    public String pages(Model model, @RequestParam("curPage") int curPage) {
-        int cur = (curPage - 1) * 5;
-        model.addAttribute("vos", getNews(0, cur, 5));
-        return "home";
-    }
 
     @RequestMapping(path = {"/news/totalPages"}, method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody

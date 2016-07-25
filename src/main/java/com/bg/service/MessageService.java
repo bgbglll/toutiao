@@ -40,4 +40,16 @@ public class MessageService {
     public void readMessage(int id) {
         messageDAO.updateRead(id, 1);
     }
+
+    public int detailCount(String conversationId) {
+        return messageDAO.detailMessageCount(conversationId);
+    }
+
+    public void deleteMessageList(String conversationId) {
+        messageDAO.updateDeletedByConversationId(conversationId,1);
+    }
+
+    public int listCount(int userId) {
+        return messageDAO.listCount(userId);
+    }
 }

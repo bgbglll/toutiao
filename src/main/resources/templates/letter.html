@@ -43,7 +43,7 @@
                     <div class="letter-info">
                         <span class="l-time">$date.format('yyyy-MM-dd HH:mm:ss', $!{conversation.conversation.createdDate})</span>
                         <div class="l-operate-bar">
-                            <a href="javascript:void(0);" class="sns-action-del" data-id="10005_622873">
+                            <a href="javascript:void(0);" id="sns-action-del-$!{conversation.conversation.conversationId}" value="$!{conversation.conversation.conversationId}">
                             删除
                             </a>
                             <a href="/msg/detail?conversationId=$!{conversation.conversation.conversationId}">
@@ -72,6 +72,10 @@
                 </li>
                 #end
                 </ul>
+            <div class="col-md-12 column my-right-letter-list">
+                <ul  id="letter-list-page">
+                </ul>
+            </div>
 
         </div>
         <script type="text/javascript">
@@ -117,4 +121,5 @@
         </script>
     </div>
 <script type="text/javascript" src="/scripts/main/site/home.js"></script>
+<script type="text/javascript" src="/scripts/main/site/letterList.js"></script>
     #parse("footer.html")
