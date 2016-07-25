@@ -32,4 +32,8 @@ public class MessageService {
     public int getConversationUnReadCount(int userId, String conversationId) {
         return messageDAO.getConversationUnReadCount(userId, conversationId);
     }
+
+    public void deleteMessage(int id) {
+        messageDAO.updateRead(id,1);
+    }
 }

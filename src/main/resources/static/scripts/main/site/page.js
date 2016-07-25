@@ -48,7 +48,7 @@ $.ajax({
                  numberOfPages: 5,
                  totalPages:pages,
                  pageUrl: function(type, page, current){
-                        return "http://127.0.0.1:8080/page?curPage="+page;
+                        return "/page?curPage="+page;
 
                   }
              }

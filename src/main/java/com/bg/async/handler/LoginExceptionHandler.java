@@ -26,7 +26,7 @@ public class LoginExceptionHandler implements EventHandler{
     @Override
     public void doHandle(EventModel model) {
         //判断是否登录异常
-        if (model.getActorId() != 12)return;
+        if (true)return;
         Message message = new Message();
         message.setToId(model.getActorId());
         message.setContent("你上次的登陆ip地址异常");

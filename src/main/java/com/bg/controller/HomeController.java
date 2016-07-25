@@ -66,7 +66,7 @@ public class HomeController {
 
     @RequestMapping(path = {"/page"}, method = {RequestMethod.GET, RequestMethod.POST})
     public String pages(Model model, @RequestParam("curPage") int curPage) {
-        int cur = (curPage-1)*5;
+        int cur = (curPage - 1) * 5;
         model.addAttribute("vos", getNews(0, cur, 5));
         return "home";
     }

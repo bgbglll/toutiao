@@ -3,7 +3,27 @@
     <div class="container">
         <ul class="letter-chatlist">
             #foreach($msg in $messages)
-            <li id="msg-item-4009123">
+            #if ($localUserId == $!{msg.userId})
+            <li id="msg-item-$!{msg.message.id}">
+                <div class="tooltip fade left in">
+                    <div class="tooltip-arrow"></div>
+                    <div class="tooltip-inner letter-chat clearfix">
+                        <div class="letter-info">
+                            <p class="letter-time">$date.format('yyyy-MM-dd HH:mm:ss', $!{msg.message.createdDate})</p>
+                            <a href="javascript:void(0);" id="del-link-$!{msg.message.id}" name="4009580" value="$!{msg.message.id}">删除</a>
+                        </div>
+                        <p class="chat-content">
+                            $!{msg.message.content}
+                        </p>
+                    </div>
+                </div>
+                <a class="list-head" href="/user/$!{msg.userId}/">
+                    <img alt="头像" src="$!{msg.headUrl}">
+                </a>
+            </li>
+            #else
+
+            <li id="msg-item-$!{msg.message.id}">
                 <a class="list-head" href="/user/$!{msg.userId}/">
                     <img alt="头像" src="$!{msg.headUrl}">
                 </a>
@@ -12,7 +32,7 @@
                     <div class="tooltip-inner letter-chat clearfix">
                         <div class="letter-info">
                             <p class="letter-time">$date.format('yyyy-MM-dd HH:mm:ss', $!{msg.message.createdDate})</p>
-                            <a href="javascript:void(0);" id="del-link" name="4009580">删除</a>
+                            <a href="javascript:void(0);" id="del-link-$!{msg.message.id}" name="4009580" value="$!{msg.message.id}">删除</a>
                         </div>
                         <p class="chat-content">
                             $!{msg.message.content}
@@ -20,6 +40,7 @@
                     </div>
                 </div>
             </li>
+            #end
             #end
         </ul>
 
@@ -68,4 +89,5 @@
     </script>
 </div>
 <script type="text/javascript" src="/scripts/main/site/home.js"></script>
+<script type="text/javascript" src="/scripts/main/site/letterDetail.js"></script>
 #parse("footer.html")

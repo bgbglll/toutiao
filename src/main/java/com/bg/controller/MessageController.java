@@ -74,6 +74,8 @@ public class MessageController {
                 vo.set("userId",user.getId());
                 messages.add(vo);
             }
+            int localUserId = hostHolder.getUser().getId();
+            model.addAttribute("localUserId", localUserId);
             model.addAttribute("messages",messages);
         } catch (Exception e) {
             logger.error("获取详细消息失败" + e.getMessage());
@@ -118,6 +120,7 @@ public class MessageController {
             msg.setCreatedDate(new Date());
             msg.setToId(receiver.getId());
             msg.setFromId(senderId);
+            msg.setHasRead(1);
             //msg.setConversationId(fromId < toId ? String.format("%d_%d", fromId, toId) : String.format("%d_%d", toId, fromId));
             messageService.addMessage(msg);
 
@@ -126,5 +129,19 @@ public class MessageController {
             logger.error("发送信息失败" + e.getMessage());
         }
         return "redirect:/msg/list";
+    }
+
+    @RequestMapping(path = {"/msg/delete"}, method = {RequestMethod.POST})
+    @ResponseBody
+    public int delteMessage(@RequestParam("msgId") int msgId) {
+        try {
+            //html 过滤
+            //System.out.print(msgId);
+            messageService.deleteMessage(msgId);
+            return 1;
+        } catch (Exception e){
+            logger.error("增加消息失败" + e.getMessage());
+            return 0;
+        }
     }
 }
