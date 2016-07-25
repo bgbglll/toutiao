@@ -4,9 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.bg</groupId>
-	<artifactId>toutiao</artifactId>
+	<artifactId>bg-toutiao</artifactId>
 	<version>1.0</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>toutiao</name>
 	<description>Demo project for Spring Boot</description>
